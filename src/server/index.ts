@@ -23,6 +23,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin
 import { expressMiddleware } from "@apollo/server/express4";
 
 import cookieSession from "cookie-session";
+import logger from "./logger";
 
 const typeDefs = `#graphql
 type User{
@@ -69,7 +70,7 @@ export default class AppServer {
   async start(): Promise<void> {
     await this.server.start();
     this.standardMiddleware(this.app);
-    this.startServer;
+    this.startServer();
   }
 
   private standardMiddleware(app: Express): void {
@@ -117,12 +118,12 @@ export default class AppServer {
   private async startServer(): Promise<void> {
     try {
       const SERVER_PORT: number = parseInt(PORT!, 10) || 4000;
-      console.info(`Server has started with process id ${process.pid}`);
+      logger.info(`Server has started with process id ${process.pid}`);
       this.httpServer.listen(SERVER_PORT, () => {
-        console.info(`Server running on port ${SERVER_PORT}`);
+        logger.info(`Server running on port ${SERVER_PORT}`);
       });
     } catch (error) {
-      console.error("error", "startServer() error method:", error);
+      logger.error("error", "startServer() error method:", error);
     }
   }
 }
