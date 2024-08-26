@@ -91,6 +91,7 @@ export default class AppServer {
     );
 
     this.graphqlRoute(app);
+    this.healthRoute(app);
   }
 
   private graphqlRoute(app: Express): void {
@@ -105,6 +106,12 @@ export default class AppServer {
         },
       })
     );
+  }
+
+  private healthRoute(app: Express): void {
+    app.get("/health", (_req: Request, res: Response) => {
+      res.status(200).send("Server is running smoothly");
+    });
   }
 
   private async startServer(): Promise<void> {
